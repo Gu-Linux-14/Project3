@@ -1,0 +1,52 @@
+#Makefile Template
+#Select compiler
+CC	=
+
+#Select libraries
+LIBS	=
+
+#Name of executable to be made
+EXE	=
+#Executable to debug
+DEX	=
+
+#Select sources to be compiled
+SRC	=
+
+#Flags to be set
+FLAGS	=
+#Debugging flags
+DFLAGS	=
+
+#Aliases
+RM	=rm -f
+
+#Header files. Maybe this is unnecessary and it makes headers mandatory.
+HDR	=$(SRC:.c=.h)
+
+#Objects to be linked. changes file extension
+OBJ	=$(SRC:.c=.o)
+
+#Select compile flags
+CFLAGS=
+
+#Execute option. Delete comment flag to execute
+
+#Create executable
+$(EXE):$(OBJ)
+	$(CC) $(FLAGS) $(OBJ) 
+
+#Create executable to debug
+$(DEX):$(OBJ)
+	$(CC) $(DFLAGS) $(OBJ) 
+
+#Create object file 
+$(OBJ):%.o : %.c %.h
+	$(CC) $(CFLAGS) $<
+
+#Add any extra prereq here.
+
+#Clean up Objects
+.PHONY: clean
+clean:
+	RM *.o
