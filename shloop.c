@@ -7,6 +7,7 @@
 //
 
 #include "shloop.h"
+#include "shFuncs.h"
 #include <stdio.h>
 #include <string.h>
 #include <sys/wait.h>
@@ -22,40 +23,66 @@ void shloop(){
     char *arguments[100];//fix this
     //parsing variables
     char * pch;
-    //char *cmd; //took it out to use execv
     int i=0;
     int exStatus;
 
     printf("14sh>> ");//prints shell header to prompt user where to enter data
     status=getline(&line, &size, stdin);
+    
+    
+    //parsing string
+    
+    //write something to put the string into othr string
+    pch = strtok (line," \n");
+    while (pch != NULL)
+    {
+        //printf ("%s\n",pch);
+        arguments[i]=pch;//puts the rest of the string into an array of strings
+        pch = strtok (NULL, " \n");
+        //printf("%s\n",arguments[i]);
+        arguments[i+1]=NULL;
+        i++;
+    }
+    //implement buildin funcs
+    if (!(listener(arguments))) {//moved loop here
+        sentinal=fork();
+        //printf("sentinal = %d", sentinal);
+        
+        if(sentinal==0){//makes child to run commands
+            
+            
+            //end of parsing
+            //printf("status = %zu\n", status);
+            if (status==1) {// fix the ordering child should be made first then call get the command
+                printf("\nno command given \n");
+            }else {//put exec here
+                exStatus=execvp(arguments[0], arguments);//("./", arguments);//maybe path needs to be better!!!!!!!!!
+                perror("execvp");
+                //printf("%s exStatus %d\n", arguments[0], exStatus);
+            }
+        }else if (sentinal==-1){
+            perror("fork");
+            wait(&sentinal);//&status);//from last homework to get status #6
+            
+        }else{//parent waits for child to finish
+            wait(&sentinal);//&status);//from last homework to get status #6
+        }
+    }
+    /*
     sentinal=fork();
     //printf("sentinal = %d", sentinal);
     
     if(sentinal==0){//makes child to run commands
 
-        //parsing string
 
-        //write something to put the string into othr string
-        pch = strtok (line," \n");
-        //cmd = pch;//saving first parsed part of string into command
-        while (pch != NULL)
-        {
-            //printf ("%s\n",pch);
-            arguments[i]=pch;//puts the rest of the string into an array of strings
-            pch = strtok (NULL, " \n");
-            printf("%s\n",arguments[i]);
-	    arguments[i+1]=NULL;
-            i++;
-        }
         //end of parsing
-        printf("status = %zu\n", status);
+        //printf("status = %zu\n", status);
         if (status==1) {// fix the ordering child should be made first then call get the command
             printf("\nno command given \n");
         }else {//put exec here
-            //int execv(const char *path, char *const argv[]);
             exStatus=execvp(arguments[0], arguments);//("./", arguments);//maybe path needs to be better!!!!!!!!!
 	    perror("execvp"); 
-            printf("%s exStatus %d\n", arguments[0], exStatus);
+            //printf("%s exStatus %d\n", arguments[0], exStatus);
         }
     }else if (sentinal==-1){
         perror("fork");
@@ -64,5 +91,5 @@ void shloop(){
     }else{//parent waits for child to finish
         wait(&sentinal);//&status);//from last homework to get status #6
     }
-    
+    */
 }
