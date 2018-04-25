@@ -49,6 +49,8 @@ void mycd(const char* newDir){/*
     }else{
         chdir(newDir);
     }*/
-    chdir(newDir);
+    if(chdir(newDir) != 0){
+        perror("error: cannot cd");
+    }    
 
 }
