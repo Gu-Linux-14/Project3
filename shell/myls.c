@@ -14,8 +14,7 @@
 
 static char *global_dir = ".";
 
-void printPermissions(mode_t mode)
-{
+void printPermissions(mode_t mode){
     putchar((mode & S_IRUSR) ? 'r' : '-');
     putchar((mode & S_IWUSR) ? 'w' : '-');
     putchar((mode & S_IXUSR) ? 'x' : '-');
@@ -27,7 +26,7 @@ void printPermissions(mode_t mode)
     putchar((mode & S_IXOTH) ? 'x' : '-');
 }
 
-printFiletype(mode_t mode){
+void printFiletype(mode_t mode){
     switch(mode & S_IFMT){
         case S_IFREG: putchar('-');
             break;
@@ -46,8 +45,7 @@ printFiletype(mode_t mode){
     }
 }
 
-void printTime(time_t mod_time)
-{
+void printTime(time_t mod_time){
     // get current time with year
     time_t curr_time;
     time(&curr_time);
@@ -76,8 +74,7 @@ struct stat getStats(const char *filename){
     sprintf(path, "%s/%s", global_dir, filename);
     struct stat mystat;
 
-    if (lstat(path, &mystat) < 0)
-    {   
+    if(lstat(path, &mystat) < 0){   
         perror(path);
         exit(EX_IOERR);
     }
@@ -90,8 +87,7 @@ void printNameOrLink(const char *filename, mode_t mode){
         char link_buf[512];
         int count = readlink(filename, link_buf, sizeof(link_buf));
 
-        if (count >= 0)
-        {
+        if(count >= 0){
             link_buf[count] = '\0';
             printf(" %s -> %s \n", filename, link_buf);
             return;
@@ -102,16 +98,16 @@ void printNameOrLink(const char *filename, mode_t mode){
     putchar('\n');
 }
 
-int mylsL(char *filename){
+void mylsL(char *filename){
     struct stat mystat;
     mystat = getStats(filename);
     
     printFiletype(mystat.st_mode);
     printPermissions(mystat.st_mode);
     printf(" %d ", mystat.st_nlink);
-    printf("%10s ", getpwuid(mystat.st_uid)->pw_name);
-    printf("%10s", getgrgid(mystat.st_gid)->gr_name);
-    printf("%10ld ", (long)mystat.st_size);
+    printf("%8s ", getpwuid(mystat.st_uid)->pw_name);
+    printf("%8s", getgrgid(mystat.st_gid)->gr_name);
+    printf("%5ld ", (long)mystat.st_size);
     printTime(mystat.st_mtime);
     printNameOrLink(filename, mystat.st_mode);
 }
@@ -135,14 +131,6 @@ int main(int argc, char *argv[]){
         }
     }
 
-    /*if(argv[2] != NULL){
-        if((dp = opendir(argv[2]))==NULL){
-            fprintf(stderr, "%s can't be opened\n", argv[1]);
-            exit(0);
-        }
-    }*/
-
-    printf("%d\n", argc);
     if(argc == 2){
         while((dirp = readdir(dp)) != NULL){
             printf("%s\n", dirp->d_name);
@@ -150,21 +138,10 @@ int main(int argc, char *argv[]){
     }
     else if(argc == 3){
         filename = argv[2];
-
         mylsL(filename);
-
-
-
-        /*while((dirp = readdir(dp)) != NULL){
-            printf("%s\n", dirp->d_name);
-            stat(buf, &mystat);
-            printf("%zu", mystat.st_size);
-            printf(" %s", dirp->d_name);
-        }*/
         printf("\n");
     }
     
     closedir(dp);
     exit(0);
 }
-
