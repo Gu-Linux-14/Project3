@@ -57,7 +57,7 @@ void shloop(){
                 printf("\nno command given \n");
             }else {//put exec here
                 exStatus=execvp(arguments[0], arguments);//("./", arguments);//maybe path needs to be better!!!!!!!!!
-                perror("execvp");
+                perror(arguments[0]);
                 //printf("%s exStatus %d\n", arguments[0], exStatus);
             }
         }else if (sentinal==-1){

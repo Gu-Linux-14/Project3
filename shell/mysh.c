@@ -37,7 +37,7 @@ int main(int argc, const char * argv[]) {
     //finished path
     //getcwd(newCwd, 50);//not working as intended
     char* currentPath = getenv("PATH");
-    //printf("\nNew %s\n", currentPath);
+    printf("\nNew %s\n", currentPath);
     
     while (true) {//running in loop
         shloop();

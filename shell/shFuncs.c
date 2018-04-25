@@ -41,12 +41,14 @@ void myexit(){
     exit(0);
 }
 
-void mycd(const char* newDir){
+void mycd(const char* newDir){/*
     if((strcmp(newDir, "."))==0){
         
     }else if ((strcmp(newDir, ".."))==0){
         
     }else{
         chdir(newDir);
-    }
+    }*/
+    chdir(newDir);
+
 }
