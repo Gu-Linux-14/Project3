@@ -42,10 +42,11 @@ void myexit(){
     exit(0);
 }
 
-void mycd(const char* newDir){/*
+void mycd(const char* newDir){
 
-    if(chdir(newDir) != 0){
-        perror("error: cannot cd");
-    }    
+    chdir(newDir);
+    perror("mycd");
+  
 
 }
+
