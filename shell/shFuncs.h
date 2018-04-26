@@ -18,7 +18,7 @@
 #include <stdio.h>
 
 bool listener(char* cmd[]);
-void pwd();
+void mypwd();
 void myexit();
 
 void mycd(const char* newDir);
