@@ -63,10 +63,9 @@ void mycat(int argc, char **argv[]){
 }
 
 
-
-
+/*
 int main(int argc, char **argv[]){
 	mycat(argc, argv);
 	exit(0);
 }
-
+*/
