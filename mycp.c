@@ -113,8 +113,8 @@ int mycpRecurr(char* dir1, char* dir2, int subDir) {
 }
 
 
-/*
+
 int main(int argc, char **argv[]) {
 	mycp(argc, argv);
-}*/
+}
 
