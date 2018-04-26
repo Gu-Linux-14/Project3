@@ -34,7 +34,7 @@ CFLAGS=
 
 #Create executable
 $(EXE):$(OBJ)
-	$(CC) $(FLAGS) $(OBJ) 
+	$(CC) $(FLAGS) $(EXE) $(OBJ) 
 
 #Create executable to debug
 $(DEX):$(OBJ)
