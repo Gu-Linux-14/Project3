@@ -21,12 +21,15 @@ int main(int argc, const char * argv[]) {
     //changing path
     char* path = getenv("PATH");
     char cwd[50];
+    char *colon=":";
+
     
     getcwd(cwd, 50);//not working as intended
     //fix this
     char* newpath = (char*)malloc((strlen("PATH=") + strlen(path) + strlen(cwd) + 1) * sizeof(char));//to put current path in path variable
     strncpy(newpath, "PATH=", strlen("PATH="));
     strncat(newpath, path, strlen(path));
+    strncat(newpath, colon, strlen(colon));
     strncat(newpath, cwd, strlen(cwd));
     //putenv(newpath);
     //printf("current path %s\n", cwd);
@@ -37,7 +40,7 @@ int main(int argc, const char * argv[]) {
     //finished path
     //getcwd(newCwd, 50);//not working as intended
     char* currentPath = getenv("PATH");
-    printf("\nNew %s\n", currentPath);
+    //printf("\nNew %s\n", currentPath);
     
     while (true) {//running in loop
         shloop();
