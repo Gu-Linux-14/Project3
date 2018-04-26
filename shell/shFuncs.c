@@ -17,8 +17,8 @@
 #include "shloop.h"
 
 bool listener(char* cmd[]){//returns false if no commands are in there
-    if((strcmp(cmd[0], "pwd"))==0){
-        pwd();
+    if((strcmp(cmd[0], "mypwd"))==0){
+        mypwd();
         return true;
     }else if((strcmp(cmd[0], "myexit"))==0){
         myexit();
@@ -30,11 +30,12 @@ bool listener(char* cmd[]){//returns false if no commands are in there
     
     return false;
 }
-void pwd(){
+void mypwd(){
     char cwd[50];
     
     getcwd(cwd, 50);//not working as intended
     //char* currentPath = getenv("CWD");
+    perror("mypwd");
     printf("cwd: %s\n", cwd);
 }
 void myexit(){
@@ -42,13 +43,7 @@ void myexit(){
 }
 
 void mycd(const char* newDir){/*
-    if((strcmp(newDir, "."))==0){
-        
-    }else if ((strcmp(newDir, ".."))==0){
-        
-    }else{
-        chdir(newDir);
-    }*/
+
     if(chdir(newDir) != 0){
         perror("error: cannot cd");
     }    
